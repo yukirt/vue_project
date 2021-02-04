@@ -1,13 +1,20 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div id='app'>
+    <img src="./assets/logo.png" />
+    <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    const api = `${process.env.APIPATH}/${process.env.CUSTOMPATH}/products`
+    console.log(api)
+    this.$http.get(api).then((response) => {
+      console.log(response.data)
+    })
+  }
 }
 </script>
 
