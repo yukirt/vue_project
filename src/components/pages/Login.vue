@@ -37,7 +37,7 @@ export default {
         console.log(self.user.username, self.user.password)
         console.log(response.data)
         if (response.data.success) {
-          self.$router.push('/')
+          self.$router.push('/admin/products')
         }
       })
     }
