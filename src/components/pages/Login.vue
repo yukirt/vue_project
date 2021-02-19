@@ -37,6 +37,10 @@ export default {
         console.log(self.user.username, self.user.password)
         console.log(response.data)
         if (response.data.success) {
+          const token = response.data.token
+          const expired = response.data.expired
+          document.cookie = `hexToken=${token}; expires=${new Date(expired)}; `
+          console.log(token, expired)
           self.$router.push('/admin/products')
         }
       })

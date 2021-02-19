@@ -20,6 +20,11 @@ export default {
   components: {
     Sidebar,
     Navbar
+  },
+  created () {
+    const jwt = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1')
+    console.log('jwt:' + jwt)
+    this.$http.defaults.headers.common.Authorization = jwt
   }
 }
 </script>
