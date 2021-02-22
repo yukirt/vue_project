@@ -83,10 +83,10 @@
                     id="customFile"
                     class="form-control"
                     ref="files"
+                    @change="uploadFile"
                   />
                 </div>
                 <img
-                  img="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=828346ed697837ce808cae68d3ddc3cf&auto=format&fit=crop&w=1350&q=80"
                   class="img-fluid"
                   :src="tempProduct.imageUrl"
                   alt=""
@@ -262,6 +262,27 @@ export default {
           $('#productModal').modal('hide')
           self.getProducts()
           console.log('false')
+        }
+      })
+    },
+    uploadFile () {
+      console.log(this)
+      const uploadFile = this.$refs.files.files[0]
+      const self = this
+      const formData = new FormData()
+      formData.append('file-to-upload', uploadFile)
+      const api = `${process.env.APIPATH}/${process.env.CUSTOMPATH}/admin/upload`
+      this.$http.post(api, formData, {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((response) => {
+        console.log(response.data)
+        console.log('response data')
+        if (response.data.success) {
+          console.log('self')
+          console.log(self.tempProduct)
+          self.$set(self.tempProduct, 'imageUrl', response.data.imageUrl)
         }
       })
     }
