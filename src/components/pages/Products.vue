@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
       <button
         class="btn btn-primary mt-4"
@@ -76,7 +77,7 @@
                 <div class="form-group">
                   <label for="customFile"
                     >或 上傳圖片
-                    <i class="fas fa-spinner fa-spin"></i>
+                    <i class="fas fa-spinner fa-spin" v-if="status.fileUploading"></i>
                   </label>
                   <input
                     type="file"
@@ -219,7 +220,11 @@ export default {
     return {
       products: [],
       tempProduct: {},
-      isNew: false
+      isNew: false,
+      isLoading: false,
+      status: {
+        fileUploading: false
+      }
     }
   },
   methods: {
@@ -227,8 +232,10 @@ export default {
       const api = `${process.env.APIPATH}/${process.env.CUSTOMPATH}/products`
       const self = this
       console.log(process.env.APIPATH, process.env.CUSTOMPATH)
+      self.isLoading = true
       this.$http.get(api).then((response) => {
         console.log(response.data)
+        self.isLoading = false
         self.products = response.data.products
       })
     },
@@ -272,6 +279,7 @@ export default {
       const formData = new FormData()
       formData.append('file-to-upload', uploadFile)
       const api = `${process.env.APIPATH}/${process.env.CUSTOMPATH}/admin/upload`
+      self.status.fileUploading = true
       this.$http.post(api, formData, {
         header: {
           'Content-Type': 'multipart/form-data'
@@ -279,6 +287,7 @@ export default {
       }).then((response) => {
         console.log(response.data)
         console.log('response data')
+        self.status.fileUploading = false
         if (response.data.success) {
           console.log('self')
           console.log(self.tempProduct)
