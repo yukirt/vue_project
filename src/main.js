@@ -8,6 +8,7 @@ import 'vue-loading-overlay/dist/vue-loading.min.js'
 import App from './App'
 import router from './router'
 import 'bootstrap'
+import './bus'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
